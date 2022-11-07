@@ -2,7 +2,7 @@
 
 ## Description
 
-The `SportsStore*` application is the classic approach taken by online stores everywhere.
+The `SportsStore` application is the classic approach taken by online stores everywhere.
 
 ## Application Features
 
