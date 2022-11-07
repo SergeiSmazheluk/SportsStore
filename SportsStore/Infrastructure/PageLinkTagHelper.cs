@@ -17,6 +17,9 @@ namespace SportsStore.Infrastructure
             this.urlHelperFactory = helperFactory;
         }
 
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
+
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext? ViewContext { get; set; }
@@ -39,19 +42,21 @@ namespace SportsStore.Infrastructure
             {
                 IUrlHelper urlHelper = this.urlHelperFactory.GetUrlHelper(this.ViewContext);
                 TagBuilder result = new TagBuilder("div");
+                
                 for (int i = 1; i <= this.PageModel.TotalPages; i++)
                 {
                     TagBuilder tag = new TagBuilder("a");
-                    tag.Attributes["href"] = urlHelper.Action(this.PageAction, new { productPage = i });
-                    tag.InnerHtml.Append(i.ToString());
-                    result.InnerHtml.AppendHtml(tag);
+                    this.PageUrlValues["productPage"] = i;
+                    tag.Attributes["href"] = urlHelper.Action(this.PageAction, this.PageUrlValues);
 
                     if (this.PageClassesEnabled)
                     {
                         tag.AddCssClass(this.PageClass);
-                        tag.AddCssClass(i == this.PageModel.CurrentPage
-                            ? this.PageClassSelected : this.PageClassNormal);
+                        tag.AddCssClass(i == this.PageModel.CurrentPage ? this.PageClassSelected : this.PageClassNormal);
                     }
+
+                    tag.InnerHtml.Append(i.ToString());
+                    result.InnerHtml.AppendHtml(tag);
                 }
 
                 output.Content.AppendHtml(result.InnerHtml);
