@@ -52,6 +52,11 @@ app.MapControllerRoute(
       "/",
       new { Controller = "Home", action = "Index" });
 
+app.MapControllerRoute(
+      "remove",
+      "Remove",
+      new { Controller = "Cart", action = "Remove" });
+
 SeedData.EnsurePopulated(app);
 
 app.Run();
