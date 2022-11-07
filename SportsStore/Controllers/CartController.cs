@@ -10,10 +10,13 @@ namespace SportsStore.Controllers
     {
         private IStoreRepository repository;
 
-        public CartController(IStoreRepository repository)
+        public CartController(IStoreRepository repository, Cart cart)
         {
             this.repository = repository;
+            this.Cart = cart;
         }
+
+        public Cart Cart { get; set; }
 
         [HttpGet]
         public IActionResult Index(string returnUrl)
@@ -32,10 +35,13 @@ namespace SportsStore.Controllers
 
             if (product != null)
             {
-                var cart = this.HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
-                cart.AddItem(product, 1);
-                this.HttpContext.Session.SetJson("cart", cart);
-                return this.View(new CartViewModel { Cart = cart, ReturnUrl = returnUrl });
+                this.Cart.AddItem(product, 1);
+
+                return this.View(new CartViewModel
+                {
+                    Cart = this.Cart,
+                    ReturnUrl = returnUrl,
+                });
             }
 
             return this.RedirectToAction("Index", "Home");
