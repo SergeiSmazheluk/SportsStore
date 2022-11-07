@@ -13,14 +13,25 @@ builder.Services.AddDbContext<StoreDbContext>(opts =>
 
 builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.MapControllerRoute(
       "categoryPage",
       "Products/{category}/Page{productPage:int}",
       new { Controller = "Home", action = "Index" });
+
+app.MapControllerRoute(
+      "shoppingCart",
+      "Cart",
+      new { Controller = "Cart", action = "Index" });
 
 app.MapControllerRoute(
       "category",
