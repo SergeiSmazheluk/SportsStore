@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SportsStore.Models;
 using SportsStore.Models.Repository;
 
@@ -28,34 +28,39 @@ app.UseStaticFiles();
 app.UseSession();
 
 app.MapControllerRoute(
-      "categoryPage",
-      "Products/{category}/Page{productPage:int}",
-      new { Controller = "Home", action = "Index" });
+    name: "categoryPage",
+    pattern: "Products/{category}/Page{productPage:int}",
+    defaults: new { Controller = "Home", action = "Index" });
 
 app.MapControllerRoute(
-      "shoppingCart",
-      "Cart",
-      new { Controller = "Cart", action = "Index" });
+    name: "shoppingCart",
+    pattern: "Cart",
+    defaults: new { Controller = "Cart", action = "Index" });
 
 app.MapControllerRoute(
-      "category",
-      "{category}",
-      new { Controller = "Home", action = "Index", productPage = 1 });
+    name: "category",
+    pattern: "Products/{category}",
+    defaults: new { Controller = "Home", action = "Index", productPage = 1 });
 
 app.MapControllerRoute(
-    "pagination",
-    "Products/Page{productPage}",
-    new { Controller = "Home", action = "Index", productPage = 1 });
+    name: "pagination",
+    pattern: "Products/Page{productPage:int}",
+    defaults: new { Controller = "Home", action = "Index", productPage = 1 });
 
 app.MapControllerRoute(
-      "default",
-      "/",
-      new { Controller = "Home", action = "Index" });
+    name: "default",
+    pattern: "/",
+    defaults: new { Controller = "Home", action = "Index" });
 
 app.MapControllerRoute(
-      "remove",
-      "Remove",
-      new { Controller = "Cart", action = "Remove" });
+    name: "checkout",
+    pattern: "Checkout",
+    defaults: new { Controller = "Order", action = "Checkout" });
+
+app.MapControllerRoute(
+    name: "remove",
+    pattern: "Remove",
+    defaults: new { Controller = "Cart", action = "Remove" });
 
 SeedData.EnsurePopulated(app);
 
