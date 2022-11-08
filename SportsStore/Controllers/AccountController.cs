@@ -18,6 +18,7 @@ namespace SportsStore.Controllers
             this.signInManager = signInManager;
         }
 
+        [HttpGet]
         [Route("Login")]
         [AllowAnonymous]
         public ViewResult Login(string returnUrl = "/")
@@ -54,6 +55,7 @@ namespace SportsStore.Controllers
             return this.View(loginViewModel);
         }
 
+        [HttpGet]
         [Route("Logout")]
         public async Task<IActionResult> Logout(string returnUrl = "/")
         {
