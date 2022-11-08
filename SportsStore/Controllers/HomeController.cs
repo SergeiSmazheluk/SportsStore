@@ -23,7 +23,7 @@ namespace SportsStore.Controllers
                   .OrderBy(p => p.ProductId)
                   .Skip((productPage - 1) * this.PageSize)
                   .Take(this.PageSize),
-                  
+
                   PagingInfo = new PagingInfo
                   {
                       CurrentPage = productPage,
@@ -34,5 +34,11 @@ namespace SportsStore.Controllers
 
                   CurrentCategory = category,
               });
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return this.View();
+        }
     }
 }
